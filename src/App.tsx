@@ -16,33 +16,37 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const AppContent = () => (
+  <div className="min-h-screen flex flex-col">
+    <Navbar />
+    <main className="flex-1">
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/creator/:creatorId" element={<CreatorProfile />} />
+        <Route path="/creator/create_identity" element={<CreateIdentity />} />
+        <Route path="/creator/create_token" element={<CreateToken />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </main>
+  </div>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <WalletContextProvider>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <div className="min-h-screen flex flex-col">
-              <Navbar />
-              <main className="flex-1">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/home" element={<Home />} />
-                  <Route path="/discover" element={<Discover />} />
-                  <Route path="/creator/:creatorId" element={<CreatorProfile />} />
-                  <Route path="/creator/create_identity" element={<CreateIdentity />} />
-                  <Route path="/creator/create_token" element={<CreateToken />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
-            </div>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </WalletContextProvider>
+    <BrowserRouter>
+      <WalletContextProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <AppContent />
+          </TooltipProvider>
+        </AuthProvider>
+      </WalletContextProvider>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
