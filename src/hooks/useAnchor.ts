@@ -12,6 +12,7 @@ const IDL = {
   name: "creator_token",
   instructions: [],
   accounts: [],
+  types: [], // This field is required by Anchor
   address: "11111111111111111111111111111111",
   metadata: {
     name: "creator_token",
@@ -45,8 +46,13 @@ export function useAnchor() {
   const program = useMemo(() => {
     if (!provider) return null;
     
-    setProvider(provider);
-    return new Program(IDL, provider);
+    try {
+      setProvider(provider);
+      return new Program(IDL, provider);
+    } catch (error) {
+      console.warn('Failed to initialize Anchor program (using placeholder IDL):', error);
+      return null;
+    }
   }, [provider]);
 
   // Helper functions for common operations
