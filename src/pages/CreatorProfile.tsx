@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAnchor } from '@/hooks/useAnchor';
 import { Creator, Post } from '@/types/anchor';
@@ -16,7 +19,9 @@ import {
   Video, 
   FileText,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  Upload,
+  X
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -77,6 +82,13 @@ export default function CreatorProfile() {
   const [buyingCost, setBuyingCost] = useState(0);
   const [sellingReturn, setSellingReturn] = useState(0);
   const [showCreatePost, setShowCreatePost] = useState(false);
+  
+  // Create post form state
+  const [postContent, setPostContent] = useState('');
+  const [postType, setPostType] = useState<'text' | 'image' | 'video'>('text');
+  const [postFile, setPostFile] = useState<File | null>(null);
+  const [postRequiredTokens, setPostRequiredTokens] = useState('0');
+  const [filePreview, setFilePreview] = useState<string | null>(null);
 
   const isOwnProfile = user?.creatorId === creatorId;
 
@@ -124,6 +136,64 @@ export default function CreatorProfile() {
       console.error('Error selling tokens:', error);
       // Show error toast
     }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPostFile(file);
+      // Create preview for images
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => setFilePreview(e.target?.result as string);
+        reader.readAsDataURL(file);
+      } else if (file.type.startsWith('video/')) {
+        const url = URL.createObjectURL(file);
+        setFilePreview(url);
+      }
+    }
+  };
+
+  const handleCreatePost = async () => {
+    if (!postContent.trim()) return;
+    
+    try {
+      // TODO: Implement actual backend API call to create post
+      const newPost: Post = {
+        id: Date.now().toString(),
+        creatorId: creatorId || '',
+        content: postContent,
+        requiredTokens: Number(postRequiredTokens),
+        createdAt: new Date(),
+        type: postType,
+        ...(postType === 'image' && postFile && { imageUrl: filePreview || undefined }),
+        ...(postType === 'video' && postFile && { videoUrl: filePreview || undefined }),
+      };
+      
+      setPosts(prev => [newPost, ...prev]);
+      
+      // Reset form
+      setPostContent('');
+      setPostType('text');
+      setPostFile(null);
+      setFilePreview(null);
+      setPostRequiredTokens('0');
+      setShowCreatePost(false);
+      
+      // Show success toast
+      console.log('Post created successfully');
+    } catch (error) {
+      console.error('Error creating post:', error);
+      // Show error toast
+    }
+  };
+
+  const resetCreatePostForm = () => {
+    setPostContent('');
+    setPostType('text');
+    setPostFile(null);
+    setFilePreview(null);
+    setPostRequiredTokens('0');
   };
 
   const canViewPost = (post: Post) => {
@@ -288,14 +358,163 @@ export default function CreatorProfile() {
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">Content Feed</h2>
               {isOwnProfile && (
-                <Button 
-                  variant="creator" 
-                  onClick={() => setShowCreatePost(true)}
-                  className="gap-2"
-                >
-                  <Plus className="h-4 w-4" />
-                  New Post
-                </Button>
+                <Dialog open={showCreatePost} onOpenChange={(open) => {
+                  setShowCreatePost(open);
+                  if (!open) resetCreatePostForm();
+                }}>
+                  <DialogTrigger asChild>
+                    <Button variant="creator" className="gap-2">
+                      <Plus className="h-4 w-4" />
+                      New Post
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Create New Post</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-6">
+                      {/* Post Type Selection */}
+                      <div className="space-y-2">
+                        <Label>Post Type</Label>
+                        <div className="flex gap-2">
+                          <Button
+                            type="button"
+                            variant={postType === 'text' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => setPostType('text')}
+                          >
+                            <FileText className="h-4 w-4 mr-2" />
+                            Text
+                          </Button>
+                          <Button
+                            type="button"
+                            variant={postType === 'image' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => setPostType('image')}
+                          >
+                            <ImageIcon className="h-4 w-4 mr-2" />
+                            Image
+                          </Button>
+                          <Button
+                            type="button"
+                            variant={postType === 'video' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => setPostType('video')}
+                          >
+                            <Video className="h-4 w-4 mr-2" />
+                            Video
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Content Input */}
+                      <div className="space-y-2">
+                        <Label htmlFor="content">Content</Label>
+                        <Textarea
+                          id="content"
+                          placeholder="Write your post content..."
+                          value={postContent}
+                          onChange={(e) => setPostContent(e.target.value)}
+                          rows={4}
+                        />
+                      </div>
+
+                      {/* File Upload for Image/Video */}
+                      {(postType === 'image' || postType === 'video') && (
+                        <div className="space-y-2">
+                          <Label htmlFor="file">
+                            {postType === 'image' ? 'Upload Image' : 'Upload Video'}
+                          </Label>
+                          <div className="border-2 border-dashed border-border rounded-lg p-6">
+                            {!postFile ? (
+                              <div className="text-center">
+                                <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                                <p className="text-sm text-muted-foreground mb-2">
+                                  Click to upload {postType} or drag and drop
+                                </p>
+                                <Input
+                                  id="file"
+                                  type="file"
+                                  accept={postType === 'image' ? 'image/*' : 'video/*'}
+                                  onChange={handleFileChange}
+                                  className="max-w-xs"
+                                />
+                              </div>
+                            ) : (
+                              <div className="space-y-2">
+                                {postType === 'image' && filePreview && (
+                                  <img
+                                    src={filePreview}
+                                    alt="Preview"
+                                    className="max-w-full h-32 object-cover rounded mx-auto"
+                                  />
+                                )}
+                                {postType === 'video' && filePreview && (
+                                  <video
+                                    src={filePreview}
+                                    controls
+                                    className="max-w-full h-32 rounded mx-auto"
+                                  />
+                                )}
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm text-muted-foreground">
+                                    {postFile.name}
+                                  </span>
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                      setPostFile(null);
+                                      setFilePreview(null);
+                                    }}
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Required Tokens */}
+                      <div className="space-y-2">
+                        <Label htmlFor="requiredTokens">Required Tokens to View</Label>
+                        <Input
+                          id="requiredTokens"
+                          type="number"
+                          placeholder="0"
+                          value={postRequiredTokens}
+                          onChange={(e) => setPostRequiredTokens(e.target.value)}
+                          min="0"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Set to 0 for public posts, or specify tokens required to view
+                        </p>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex gap-2 justify-end">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setShowCreatePost(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="creator"
+                          onClick={handleCreatePost}
+                          disabled={!postContent.trim()}
+                        >
+                          Create Post
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               )}
             </div>
 
