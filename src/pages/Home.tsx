@@ -31,7 +31,7 @@ export default function Home() {
           <Wallet className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
           <h2 className="text-2xl font-bold mb-2">Connect Your Wallet</h2>
           <p className="text-muted-foreground mb-4">Please connect your wallet to view your dashboard</p>
-          <Button variant="connect" onClick={() => navigate('/discover')}>
+          <Button variant="default" onClick={() => navigate('/discover')}>
             Go to Discover
           </Button>
         </div>
@@ -174,14 +174,14 @@ export default function Home() {
               <CardContent>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button 
-                    variant="gradient" 
+                    variant="default" 
                     onClick={() => navigate(`/creator/${user.creatorId}`)}
                     className="flex-1"
                   >
                     View My Profile
                   </Button>
                   <Button 
-                    variant="creator" 
+                    variant="secondary" 
                     onClick={() => navigate('/creator/create_token')}
                     className="flex-1"
                   >

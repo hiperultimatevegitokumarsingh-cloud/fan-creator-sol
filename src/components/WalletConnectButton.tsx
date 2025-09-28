@@ -6,13 +6,13 @@ import { Wallet, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface WalletConnectButtonProps {
-  variant?: 'connect' | 'glass' | 'gradient';
+  variant?: 'default' | 'secondary' | 'outline';
   size?: 'default' | 'sm' | 'lg' | 'xl';
   className?: string;
 }
 
 export function WalletConnectButton({ 
-  variant = 'connect', 
+  variant = 'default', 
   size = 'default',
   className 
 }: WalletConnectButtonProps) {
@@ -21,12 +21,12 @@ export function WalletConnectButton({
   if (connected && publicKey) {
     return (
       <Button
-        variant="glass"
+        variant="secondary"
         size={size}
         onClick={disconnect}
         className={cn("group", className)}
       >
-        <LogOut className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+        <LogOut className="mr-2 h-4 w-4 transition-transform" />
         <span className="hidden sm:inline">
           {publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}
         </span>
@@ -46,7 +46,7 @@ export function WalletConnectButton({
           fontFamily: 'inherit',
         }}
       >
-        <Button variant={variant} size={size} className="w-full">
+        <Button variant="default" size={size} className="w-full">
           <Wallet className="mr-2 h-4 w-4" />
           Connect Wallet
         </Button>

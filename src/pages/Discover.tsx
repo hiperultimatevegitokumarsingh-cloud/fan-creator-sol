@@ -161,7 +161,7 @@ export default function Discover() {
                   </div>
 
                   <Button 
-                    variant="gradient" 
+                    variant="default" 
                     className="w-full"
                     onClick={() => navigate(`/creator/${creator.pubkey.toBase58()}`)}
                   >
@@ -203,7 +203,7 @@ export default function Discover() {
                 Share your content, build your community, and monetize your creativity
               </p>
               <Button 
-                variant="creator" 
+                variant="default" 
                 size="lg"
                 onClick={() => navigate('/creator/create_identity')}
               >

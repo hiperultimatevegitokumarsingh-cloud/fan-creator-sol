@@ -292,7 +292,7 @@ export default function CreatorProfile() {
                         className="flex-1"
                       />
                       <Button 
-                        variant="buy" 
+                        variant="default" 
                         onClick={handleBuyTokens}
                         disabled={!buyAmount || !isAuthenticated}
                       >
@@ -320,7 +320,7 @@ export default function CreatorProfile() {
                         className="flex-1"
                       />
                       <Button 
-                        variant="sell" 
+                        variant="secondary" 
                         onClick={handleSellTokens}
                         disabled={!sellAmount || !isAuthenticated || Number(sellAmount) > userBalance}
                       >
@@ -345,7 +345,7 @@ export default function CreatorProfile() {
                   <p className="text-sm text-muted-foreground mb-4">
                     Connect your wallet to buy and sell tokens
                   </p>
-                  <Button variant="connect" className="w-full">
+                  <Button variant="default" className="w-full">
                     Connect Wallet
                   </Button>
                 </CardContent>
@@ -363,7 +363,7 @@ export default function CreatorProfile() {
                   if (!open) resetCreatePostForm();
                 }}>
                   <DialogTrigger asChild>
-                    <Button variant="creator" className="gap-2">
+                    <Button variant="default" className="gap-2">
                       <Plus className="h-4 w-4" />
                       New Post
                     </Button>
@@ -505,7 +505,7 @@ export default function CreatorProfile() {
                         </Button>
                         <Button
                           type="button"
-                          variant="creator"
+                          variant="default"
                           onClick={handleCreatePost}
                           disabled={!postContent.trim()}
                         >

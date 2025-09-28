@@ -106,7 +106,7 @@ export default function CreateIdentity() {
             <p className="text-muted-foreground mb-4">
               Please connect your wallet to create your creator identity
             </p>
-            <Button variant="connect" onClick={() => navigate('/discover')}>
+            <Button variant="default" onClick={() => navigate('/discover')}>
               Go to Discover
             </Button>
           </CardContent>
@@ -223,7 +223,7 @@ export default function CreateIdentity() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  variant="gradient"
+                  variant="default"
                   size="lg"
                   className="w-full"
                   disabled={isLoading || !name.trim() || !bio.trim()}

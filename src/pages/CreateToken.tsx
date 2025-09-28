@@ -109,7 +109,7 @@ export default function CreateToken() {
             <p className="text-muted-foreground mb-4">
               Please connect your wallet to create a token
             </p>
-            <Button variant="connect" onClick={() => navigate('/discover')}>
+            <Button variant="default" onClick={() => navigate('/discover')}>
               Connect Wallet
             </Button>
           </CardContent>
@@ -128,7 +128,7 @@ export default function CreateToken() {
             <p className="text-muted-foreground mb-4">
               You need to create your creator identity before you can create tokens
             </p>
-            <Button variant="creator" onClick={() => navigate('/creator/create_identity')}>
+            <Button variant="default" onClick={() => navigate('/creator/create_identity')}>
               Create Identity
             </Button>
           </CardContent>
@@ -278,7 +278,7 @@ export default function CreateToken() {
                   {/* Submit Button */}
                   <Button
                     type="submit"
-                    variant="gradient"
+                    variant="default"
                     size="lg"
                     className="w-full"
                     disabled={isLoading || basePrice <= 0 || slope <= 0}

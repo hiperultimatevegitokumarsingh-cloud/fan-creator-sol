@@ -13,14 +13,14 @@ export function Navbar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="sticky top-0 z-50 glass-card border-b border-glass-border">
+    <nav className="sticky top-0 z-50 bg-card border-b border-border">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 group">
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-            <span className="text-white font-bold text-sm">CT</span>
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center transition-transform">
+            <span className="text-primary-foreground font-bold text-sm">CT</span>
           </div>
-          <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+          <span className="text-xl font-bold text-primary">
             CreatorToken
           </span>
         </Link>
@@ -29,7 +29,7 @@ export function Navbar() {
         <div className="hidden md:flex items-center space-x-6">
           <Link to="/discover">
             <Button
-              variant={isActive('/discover') ? 'glass' : 'ghost'}
+              variant={isActive('/discover') ? 'secondary' : 'ghost'}
               size="sm"
               className="gap-2"
             >
@@ -41,7 +41,7 @@ export function Navbar() {
           {isAuthenticated && (
             <Link to="/home">
               <Button
-                variant={isActive('/home') ? 'glass' : 'ghost'}
+                variant={isActive('/home') ? 'secondary' : 'ghost'}
                 size="sm"
                 className="gap-2"
               >
@@ -54,7 +54,7 @@ export function Navbar() {
           {isAuthenticated && user?.isCreator && user.creatorId && (
             <Link to={`/creator/${user.creatorId}`}>
               <Button
-                variant={isActive(`/creator/${user.creatorId}`) ? 'glass' : 'ghost'}
+                variant={isActive(`/creator/${user.creatorId}`) ? 'secondary' : 'ghost'}
                 size="sm"
                 className="gap-2"
               >
@@ -66,7 +66,7 @@ export function Navbar() {
 
           {isAuthenticated && !user?.isCreator && (
             <Link to="/creator/create_identity">
-              <Button variant="creator" size="sm" className="gap-2">
+              <Button variant="default" size="sm" className="gap-2">
                 <Plus className="h-4 w-4" />
                 Become Creator
               </Button>
@@ -81,11 +81,11 @@ export function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="md:hidden px-4 pb-3 border-t border-glass-border">
+      <div className="md:hidden px-4 pb-3 border-t border-border">
         <div className="flex justify-around items-center space-x-2">
           <Link to="/discover" className="flex-1">
             <Button
-              variant={isActive('/discover') ? 'glass' : 'ghost'}
+              variant={isActive('/discover') ? 'secondary' : 'ghost'}
               size="sm"
               className="w-full gap-1 text-xs"
             >
@@ -97,7 +97,7 @@ export function Navbar() {
           {isAuthenticated && (
             <Link to="/home" className="flex-1">
               <Button
-                variant={isActive('/home') ? 'glass' : 'ghost'}
+                variant={isActive('/home') ? 'secondary' : 'ghost'}
                 size="sm"
                 className="w-full gap-1 text-xs"
               >
@@ -110,7 +110,7 @@ export function Navbar() {
           {isAuthenticated && user?.isCreator && user.creatorId && (
             <Link to={`/creator/${user.creatorId}`} className="flex-1">
               <Button
-                variant={isActive(`/creator/${user.creatorId}`) ? 'glass' : 'ghost'}
+                variant={isActive(`/creator/${user.creatorId}`) ? 'secondary' : 'ghost'}
                 size="sm"
                 className="w-full gap-1 text-xs"
               >
@@ -122,7 +122,7 @@ export function Navbar() {
 
           {isAuthenticated && !user?.isCreator && (
             <Link to="/creator/create_identity" className="flex-1">
-              <Button variant="creator" size="sm" className="w-full gap-1 text-xs">
+              <Button variant="default" size="sm" className="w-full gap-1 text-xs">
                 <Plus className="h-4 w-4" />
                 Create
               </Button>
