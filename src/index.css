@@ -6,48 +6,91 @@
 
 @layer base {
   :root {
-    /* Elegant Luxury Dark Theme */
-    --background: 220 13% 9%;
-    --foreground: 220 13% 95%;
+    /* Playful Minimalistic Theme */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
 
     /* Cards & Surfaces */
-    --card: 220 13% 12%;
-    --card-foreground: 220 13% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
 
-    /* Primary - Elegant Gold */
-    --primary: 38 70% 68%;
-    --primary-foreground: 220 13% 9%;
+    /* Primary - Vibrant Purple */
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 98%;
 
-    /* Secondary - Rich Charcoal */
-    --secondary: 220 13% 18%;
-    --secondary-foreground: 220 13% 95%;
+    /* Secondary - Soft Gray */
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
 
-    /* Accent - Warm Copper */
-    --accent: 15 65% 60%;
-    --accent-foreground: 220 13% 9%;
+    /* Accent - Playful Pink */
+    --accent: 336 84% 68%;
+    --accent-foreground: 0 0% 98%;
 
     /* Muted elements */
-    --muted: 220 13% 15%;
-    --muted-foreground: 220 9% 65%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
 
     /* Destructive */
-    --destructive: 0 65% 55%;
-    --destructive-foreground: 220 13% 95%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
 
     /* Success */
-    --success: 145 65% 55%;
-    --success-foreground: 220 13% 95%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 98%;
 
     /* Warning */
-    --warning: 35 85% 65%;
-    --warning-foreground: 220 13% 9%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 98%;
 
     /* Borders & Inputs */
-    --border: 220 13% 20%;
-    --input: 220 13% 15%;
-    --ring: 38 70% 68%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 262 83% 58%;
 
-    --radius: 8px;
+    --radius: 12px;
+  }
+
+  .dark {
+    /* Dark mode - Playful Dark */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    /* Cards & Surfaces */
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    /* Primary - Bright Purple */
+    --primary: 263 70% 50%;
+    --primary-foreground: 0 0% 98%;
+
+    /* Secondary - Dark Gray */
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Accent - Electric Pink */
+    --accent: 336 75% 60%;
+    --accent-foreground: 0 0% 98%;
+
+    /* Muted elements */
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    /* Destructive */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Success */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+
+    /* Warning */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 98%;
+
+    /* Borders & Inputs */
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 263 70% 50%;
   }
 }
 
@@ -58,7 +101,6 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    background: linear-gradient(135deg, hsl(220 13% 9%) 0%, hsl(220 13% 7%) 100%);
   }
 
   /* Scrollbar styling */
